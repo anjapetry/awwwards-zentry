@@ -1,6 +1,5 @@
-import React from "react";
-import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
 
 import AnimatedTitle from "./AnimatedTitle";
@@ -31,7 +30,7 @@ const About = () => {
   return (
     <section id="about" className="min-h-screen w-screen">
       <div className="relative mb-8 mt-36 flex flex-col items-center gap-5">
-        <h1 className="text-md lg:text-md animate-pulse font-general font-semibold uppercase md:text-lg xl:text-base">
+        <h1 className="text-md lg:text-md animate-pulse font-general font-semibold uppercase md:text-sm">
           Welcome to Zentry
         </h1>
 
@@ -42,20 +41,20 @@ const About = () => {
 
         <div className="about-subtext">
           <p>The Game of Games begins—your life, now an epic MMORPG</p>
-          <p className="text-gray-500">
+          <p className="text-gray-600">
             Zentry unites every player from countless games and platforms, both
             digital and physical, into a unified Play Economy
           </p>
         </div>
+      </div>
 
-        <div className="h-dvh w-screen" id="clip">
-          <div className="mask-clip-path about-image">
-            <img
-              src="img/about.webp"
-              alt="Background"
-              className="absolute left-0 top-0 size-full object-cover"
-            />
-          </div>
+      <div className="h-dvh w-screen" id="clip">
+        <div className="mask-clip-path about-image">
+          <img
+            src="img/about.webp"
+            alt="Background"
+            className="absolute left-0 top-0 size-full object-cover"
+          />
         </div>
       </div>
     </section>
