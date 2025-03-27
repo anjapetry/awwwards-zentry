@@ -5,7 +5,15 @@ import Button from "./Button";
 const navItems = ["Nexus", "Vault", "Prologue", "About", "Contact"];
 
 const Navbar = () => {
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [isIndicatorActive, setIsIndicatorActive] = useState(false);
+
   const navContainerRef = useRef(null);
+  const audioElementRef = useRef(null);
+
+  const toggleAudioIndicator = () => {
+    setIsAudioPlaying((prevState) => !prevState);
+  };
 
   return (
     <div
@@ -29,7 +37,7 @@ const Navbar = () => {
           {/* Navigation Links and Audio Button */}
           <div className="flex h-full items-center">
             <div className="hidden md:block">
-            {navItems.map((item, index) => (
+              {navItems.map((item, index) => (
                 <a
                   key={index}
                   href={`#${item.toLowerCase()}`}
@@ -39,6 +47,29 @@ const Navbar = () => {
                 </a>
               ))}
             </div>
+
+            <button
+              className="ml-10 flex items-center space-x-0.5"
+              onClick={toggleAudioIndicator}
+            >
+              <audio
+                controls
+                aria-controls="audio"
+                aria-label="Music Player"
+                ref={audioElementRef}
+                className="hidden"
+                src="/audio/loop.mp3"
+                loop
+              >
+                {[1, 2, 3, 4].map((bar) => (
+                  <div
+                    key={bar}
+                    className={`indicator-line ${isIndicatorActive ? "active" : ""}`}
+                    style={{ animationDelay: `${bar * 0.1}s` }}
+                  />
+                ))}
+              </audio>
+            </button>
           </div>
         </nav>
       </header>
