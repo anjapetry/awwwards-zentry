@@ -5,7 +5,7 @@ import About from "./components/About.jsx";
 
 const App = () => {
   return (
-    <main className="relative min-h-screen w-screen overflow-x-hidden bg-stone-600">
+    <main className="relative min-h-screen w-screen overflow-x-hidden text-white">
       <Navbar />
       <Hero />
       <About />
