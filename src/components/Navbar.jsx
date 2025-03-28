@@ -1,19 +1,33 @@
-import React, { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TiLocationArrow } from "react-icons/ti";
+
 import Button from "./Button";
 
 const navItems = ["Nexus", "Vault", "Prologue", "About", "Contact"];
 
 const Navbar = () => {
+  // State for toggling audio and visual indicator
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [isIndicatorActive, setIsIndicatorActive] = useState(false);
 
+  // Refs for audio and navigation container
   const navContainerRef = useRef(null);
   const audioElementRef = useRef(null);
 
   const toggleAudioIndicator = () => {
-    setIsAudioPlaying((prevState) => !prevState);
+    setIsAudioPlaying((prev) => !prev);
+
+    setIsIndicatorActive((prev) => !prev);
   };
+
+  // Manage audio playback
+  useEffect(() => {
+    if (isAudioPlaying) {
+      audioElementRef.current.play();
+    } else {
+      audioElementRef.current.pause();
+    }
+  }, [isAudioPlaying]);
 
   return (
     <div
@@ -22,8 +36,10 @@ const Navbar = () => {
     >
       <header className="absolute top-1/2 w-full -translate-y-1/2">
         <nav className="flex size-full items-center justify-between p-4">
+          {/* Logo and Product button */}
           <div className="flex items-center gap-7">
             <img src="/img/logo.png" alt="Logo" className="h-12" />
+
             <Button
               id="product-button"
               title="Products"
@@ -53,22 +69,30 @@ const Navbar = () => {
               onClick={toggleAudioIndicator}
             >
               <audio
+                className="hidden"
                 controls
                 aria-controls="audio"
-                aria-label="Music Player"
+                aria-label="looped audio"
                 ref={audioElementRef}
-                className="hidden"
                 src="/audio/loop.mp3"
                 loop
-              >
-                {[1, 2, 3, 4].map((bar) => (
-                  <div
-                    key={bar}
-                    className={`indicator-line ${isIndicatorActive ? "active" : ""}`}
-                    style={{ animationDelay: `${bar * 0.1}s` }}
-                  />
-                ))}
-              </audio>
+              />
+
+              {[1, 2, 3, 4].map((bar) => (
+                <div
+                  key={bar}
+                  className={`indicator-line ${isIndicatorActive ? "active" : ""}`}
+                  style={{
+                    animationDelay: `${bar * 0.1}s`,
+                    width: `${bar * 1.2}px`,
+                    height: `${bar * 6}px`,
+                    backgroundColor: "#fff",
+                    transition:
+                      "width 0.3s, height 0.3s, background-color 0.3s",
+                    transform: isIndicatorActive ? "scale(1.2)" : "scale(1)",
+                  }}
+                />
+              ))}
             </button>
           </div>
         </nav>
