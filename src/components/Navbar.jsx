@@ -75,7 +75,7 @@ const Navbar = () => {
             <Button
               id="product-button"
               title="Products"
-              rightIcon={<TiLocationArrow className="h-5 w-5" />}
+              rightIcon={<TiLocationArrow className="h-6 w-6" />}
               type="button"
               containerClass="hidden items-center justify-center gap-1 bg-blue-50 md:flex"
               aria-label="Products"
