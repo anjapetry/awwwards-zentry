@@ -64,7 +64,7 @@ const Navbar = () => {
   return (
     <div
       ref={navContainerRef}
-      className="fixed inset-x-0 top-4 z-50 h-16 border-none transition-all duration-700 sm:inset-x-6"
+      className="fixed inset-x-0 top-4 z-50 h-16 border-none backdrop-blur-sm transition-all duration-700 sm:inset-x-6"
     >
       <header className="absolute top-1/2 w-full -translate-y-1/2">
         <nav className="flex size-full items-center justify-between p-4">
@@ -83,7 +83,7 @@ const Navbar = () => {
           </div>
 
           {/* Navigation Links and Audio Button */}
-          <div className="flex h-full items-center">
+          <div className="flex h-full items-center tracking-wide">
             <div className="hidden md:block">
               {navItems.map((item, index) => (
                 <a
