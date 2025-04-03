@@ -80,10 +80,9 @@ const Story = () => {
         </div>
         <div className="-mt-80 flex w-full justify-center md:-mt-64 md:me-44 md:justify-end">
           <div className="flex h-full w-fit flex-col items-center">
-            <p className="mt-3 max-w-sm text-center font-circular-web text-lg tracking-wide text-violet-50 md:text-start">
-              Where realms converge, Zentry exposes its boundless magic
-              Discover its secrets and shape your fate amidst infinite
-              possibilities.
+            <p className="mt-5 max-w-sm text-center font-circular-web text-lg tracking-wide text-violet-50 md:text-start">
+              Where realms converge, Zentry exposes its boundless magic Discover
+              its secrets and shape your fate amidst infinite possibilities.
             </p>
 
             <Button
