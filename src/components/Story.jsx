@@ -2,12 +2,15 @@ import AnimatedTitle from "./AnimatedTitle";
 import { useRef } from "react";
 import gsap from "gsap";
 import RoundedCorners from "./RoundedCorners";
+import { TiLocationArrow } from "react-icons/ti";
+import Button from "./Button";
 
 const Story = () => {
   const frameRef = useRef(null);
 
   const handleMouseLeave = () => {
     const element = frameRef.current;
+    if (!element) return;
 
     gsap.to(element, {
       duration: 0.3,
@@ -48,6 +51,7 @@ const Story = () => {
         <p className="font-general text-base uppercase tracking-wider md:text-[14px]">
           reimagining digital game frontiers
         </p>
+
         <div className="relative size-full">
           <AnimatedTitle
             title="The st<b>o</b>ry of <br /> a hidden real<b>m</b>"
@@ -60,13 +64,12 @@ const Story = () => {
             <div className="story-img-mask">
               <div className="story-img-content">
                 <img
-                  src="/img/entrance.webp"
-                  alt="A stone portal entrance to a digital realm, featuring ethereal lighting and abstract geometric patterns"
                   ref={frameRef}
                   onMouseLeave={handleMouseLeave}
                   onMouseUp={handleMouseLeave}
-                  //onMouseEnter={handleMouseLeave}
                   onMouseMove={handleMouseMove}
+                  src="/img/entrance.webp"
+                  alt="A stone portal entrance to a digital realm, featuring ethereal lighting and abstract geometric patterns"
                   className="object-contain"
                 />
               </div>
@@ -75,8 +78,23 @@ const Story = () => {
             <RoundedCorners />
           </div>
         </div>
+        <div className="-mt-80 flex w-full justify-center md:-mt-64 md:me-44 md:justify-end">
+          <div className="flex h-full w-fit flex-col items-center">
+            <p className="mt-3 max-w-sm text-center font-circular-web text-lg tracking-wide text-violet-50 md:text-start">
+              Where realms converge, Zentry exposes its boundless magic
+              Discover its secrets and shape your fate amidst infinite
+              possibilities.
+            </p>
 
-
+            <Button
+              id="realm-btn"
+              title="discover prologue"
+              aria-label="discover prologue"
+              rightIcon={<TiLocationArrow className="h-6 w-6" />}
+              containerClass="flex-center mt-5 gap-1 bg-teal-300"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
