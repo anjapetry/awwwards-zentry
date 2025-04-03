@@ -7,7 +7,7 @@ const Button = ({ title, id, leftIcon, rightIcon, containerClass }) => {
       type="button"
       id={id}
       className={clsx(
-        "group relative z-10 mb-2 me-2 mt-2 w-fit cursor-pointer overflow-hidden rounded-full bg-violet-50 px-7 py-3 text-center font-semibold text-black hover:bg-teal-100 focus:outline-none focus:ring-4 focus:ring-teal-400",
+        "group relative z-10 mb-2 me-2 mt-2 w-fit cursor-pointer overflow-hidden rounded-full bg-violet-50 px-7 py-3 text-center font-semibold text-black hover:bg-teal-100 focus:ring-4 focus:ring-teal-400",
         containerClass,
       )}
     >
