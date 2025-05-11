@@ -69,7 +69,7 @@ const Story = () => {
                   onMouseUp={handleMouseLeave}
                   onMouseMove={handleMouseMove}
                   src="/img/entrance.webp"
-                  alt="A stone portal entrance to a digital realm, featuring ethereal lighting and abstract geometric patterns"
+                  alt=""
                   className="object-contain"
                 />
               </div>
