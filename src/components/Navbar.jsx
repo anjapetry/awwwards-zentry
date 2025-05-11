@@ -70,7 +70,7 @@ const Navbar = () => {
         <nav className="flex size-full items-center justify-between p-4">
           {/* Logo and Product button */}
           <div className="flex items-center gap-7">
-            <img src="/img/logo.png" alt="Logo" className="h-12" />
+            <img src="/img/logo.png" alt="Zentry logo" className="h-12" />
 
             <Button
               id="product-button"
@@ -99,6 +99,7 @@ const Navbar = () => {
             <button
               className="ml-10 flex items-center space-x-0.5"
               onClick={toggleAudioIndicator}
+              aria-label="play dramatic soundtrack"
             >
               <audio
                 className="hidden"
