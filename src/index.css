@@ -7,6 +7,7 @@ body {
   width: 100dvw;
   background-color: #c0f2fa;
   overflow-x: hidden;
+  line-height: 1.5em;
 }
 
 @layer base {
@@ -77,6 +78,9 @@ body {
   .about-image {
     @apply absolute top-0 left-1/2 z-20 h-[60vh] w-96 origin-center -translate-x-1/2 overflow-hidden rounded-3xl md:w-[30vw];
   }
+
+
+
 
   .animated-title {
     @apply flex flex-col gap-1 text-7xl leading-[.8] text-white uppercase sm:px-32 md:text-[6rem];
