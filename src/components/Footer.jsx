@@ -45,10 +45,12 @@ const Footer = () => {
         aria-label="Privacy Policy"
         className="container mx-auto mt-6 px-4 text-sm text-violet-100"
       >
-        <h2 className="mb-2 text-base font-semibold text-white">Privacy Policy</h2>
+        <h2 className="mb-2 text-base font-semibold text-white">
+          Privacy Policy
+        </h2>
         <p>
-          We only process information needed to deliver core product features and
-          support requests. For questions about data handling, contact
+          We only process information needed to deliver core product features
+          and support requests. For questions about data handling, contact
           hello@zentry.gg.
         </p>
       </section>

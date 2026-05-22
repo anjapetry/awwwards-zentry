@@ -109,11 +109,7 @@ const Navbar = () => {
           <div className="flex h-full items-center tracking-wide">
             <div className="hidden md:block">
               {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="nav-hover-btn"
-                >
+                <a key={item.label} href={item.href} className="nav-hover-btn">
                   {item.label}
                 </a>
               ))}
