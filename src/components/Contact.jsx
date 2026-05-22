@@ -1,5 +1,6 @@
 import AnimatedTitle from "./AnimatedTitle";
 import Button from "./Button";
+import { TiLocationArrow } from "react-icons/ti";
 
 const ImageClipBox = ({ src, clipClass }) => (
   <div className={clipClass}>
@@ -42,7 +43,12 @@ const Contact = () => {
             className="special-font !md:text-[6.2rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
           />
 
-          <Button title="contact us" containerClass="mt-20 cursor-pointer" />
+          <Button
+            title="contact us"
+            type="button"
+            leftIcon={<TiLocationArrow className="h-6 w-6" />}
+            containerClass="flex-center mt-20 cursor-pointer gap-1 px-6 py-3 text-sm uppercase transition-all duration-300 hover:scale-110"
+          />
         </div>
       </div>
     </div>
