@@ -5,12 +5,20 @@ import { useWindowScroll } from "react-use";
 
 import Button from "./Button";
 
-const navItems = ["Nexus", "Vault", "Prologue", "About", "Contact"];
+const navItems = [
+  { label: "Nexus", href: "#home" },
+  { label: "Vault", href: "#features" },
+  { label: "Prologue", href: "#story" },
+  { label: "About", href: "#about" },
+  { label: "Contact", href: "#contact" },
+];
 
 const Navbar = () => {
   // State for toggling audio and visual indicator
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [isIndicatorActive, setIsIndicatorActive] = useState(false);
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Refs for audio and navigation container
   const navContainerRef = useRef(null);
@@ -23,15 +31,29 @@ const Navbar = () => {
   // Toggle audio and visual indicator
   const toggleAudioIndicator = () => {
     setIsAudioPlaying((prev) => !prev);
-    setIsIndicatorActive((prev) => !prev);
+  };
+
+  const scrollToSection = (sectionId) => {
+    const targetSection = document.getElementById(sectionId);
+    if (!targetSection) return;
+
+    targetSection.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start",
+    });
   };
 
   // Manage audio playback
   useEffect(() => {
     if (isAudioPlaying) {
-      audioElementRef.current.play();
+      const playPromise = audioElementRef.current?.play();
+      if (playPromise?.catch) {
+        playPromise.catch(() => {
+          // If playback is blocked, keep the UI responsive without throwing.
+        });
+      }
     } else {
-      audioElementRef.current.pause();
+      audioElementRef.current?.pause();
     }
   }, [isAudioPlaying]);
 
@@ -57,9 +79,9 @@ const Navbar = () => {
     gsap.to(navContainerRef.current, {
       y: isNavVisible ? 0 : -100,
       opacity: isNavVisible ? 1 : 0,
-      duration: 0.2,
+      duration: prefersReducedMotion ? 0 : 0.2,
     });
-  }, [isNavVisible]);
+  }, [isNavVisible, prefersReducedMotion]);
 
   return (
     <div
@@ -77,6 +99,7 @@ const Navbar = () => {
               title="Products"
               rightIcon={<TiLocationArrow className="h-6 w-6" />}
               type="button"
+              onClick={() => scrollToSection("features")}
               containerClass="hidden items-center justify-center gap-1 bg-blue-50 md:flex"
               aria-label="Products"
             />
@@ -85,13 +108,13 @@ const Navbar = () => {
           {/* Navigation Links and Audio Button */}
           <div className="flex h-full items-center tracking-wide">
             <div className="hidden md:block">
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <a
-                  key={index}
-                  href={`#${item.toLowerCase()}`}
+                  key={item.label}
+                  href={item.href}
                   className="nav-hover-btn"
                 >
-                  {item}
+                  {item.label}
                 </a>
               ))}
             </div>
@@ -99,12 +122,18 @@ const Navbar = () => {
             <button
               className="ml-10 flex items-center space-x-0.5"
               onClick={toggleAudioIndicator}
-              aria-label="play dramatic soundtrack"
+              aria-pressed={isAudioPlaying}
+              aria-label={
+                isAudioPlaying
+                  ? "Pause dramatic soundtrack"
+                  : "Play dramatic soundtrack"
+              }
+              aria-controls="background-audio"
             >
+              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
               <audio
+                id="background-audio"
                 className="hidden"
-                controls
-                aria-controls="audio"
                 aria-label="looped audio"
                 ref={audioElementRef}
                 src="/audio/loop.mp3"
@@ -114,7 +143,7 @@ const Navbar = () => {
               {[1, 2, 3, 4].map((bar) => (
                 <div
                   key={bar}
-                  className={`indicator-line ${isIndicatorActive ? "active" : ""}`}
+                  className={`indicator-line ${isAudioPlaying ? "active" : ""}`}
                   style={{
                     animationDelay: `${bar * 0.1}s`,
                     width: `${bar * 1.2}px`,
@@ -122,7 +151,7 @@ const Navbar = () => {
                     backgroundColor: "#fff",
                     transition:
                       "width 0.3s, height 0.3s, background-color 0.3s",
-                    transform: isIndicatorActive ? "scale(1.2)" : "scale(1)",
+                    transform: isAudioPlaying ? "scale(1.2)" : "scale(1)",
                   }}
                 />
               ))}

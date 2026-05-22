@@ -1,10 +1,10 @@
 import { FaDiscord, FaTwitter, FaYoutube, FaMedium } from "react-icons/fa";
 
 const socialLinks = [
-  { href: "https://discord.com", icon: <FaDiscord /> },
-  { href: "https://twitter.com", icon: <FaTwitter /> },
-  { href: "https://youtube.com", icon: <FaYoutube /> },
-  { href: "https://medium.com", icon: <FaMedium /> },
+  { href: "https://discord.com", label: "Discord", icon: <FaDiscord /> },
+  { href: "https://twitter.com", label: "Twitter", icon: <FaTwitter /> },
+  { href: "https://youtube.com", label: "YouTube", icon: <FaYoutube /> },
+  { href: "https://medium.com", label: "Medium", icon: <FaMedium /> },
 ];
 
 const Footer = () => {
@@ -23,11 +23,8 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="text-violet-50 transition-colors duration-500 ease-in-out hover:scale-125 hover:text-teal-100"
-              aria-label={`Link to ${link.href}`}
-              title={`Link to ${link.href}`}
-              onClick={() => {
-                window.open(link.href, "_blank");
-              }}
+              aria-label={`Visit ${link.label}`}
+              title={`Visit ${link.label}`}
             >
               {link.icon}
             </a>
@@ -41,6 +38,20 @@ const Footer = () => {
           Privacy Policy
         </a>
       </div>
+
+      <section
+        id="privacy-policy"
+        tabIndex="-1"
+        aria-label="Privacy Policy"
+        className="container mx-auto mt-6 px-4 text-sm text-violet-100"
+      >
+        <h2 className="mb-2 text-base font-semibold text-white">Privacy Policy</h2>
+        <p>
+          We only process information needed to deliver core product features and
+          support requests. For questions about data handling, contact
+          hello@zentry.gg.
+        </p>
+      </section>
     </footer>
   );
 };
