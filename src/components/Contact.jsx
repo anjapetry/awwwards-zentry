@@ -9,8 +9,16 @@ const ImageClipBox = ({ src, clipClass }) => (
 );
 
 const Contact = () => {
+  const handleContactClick = () => {
+    window.location.href = "mailto:hello@zentry.gg?subject=Contact%20Zentry";
+  };
+
   return (
-    <div id="contact" className="my-20 min-h-96 w-screen px-10">
+    <section
+      id="contact"
+      aria-label="Contact"
+      className="my-20 min-h-96 w-screen px-10"
+    >
       <div className="relative rounded-lg bg-black py-24 text-blue-50 sm:overflow-hidden">
         <div className="absolute -left-20 top-0 hidden h-full w-72 overflow-hidden sm:block lg:left-20 lg:w-96">
           <ImageClipBox
@@ -46,12 +54,13 @@ const Contact = () => {
           <Button
             title="contact us"
             type="button"
+            onClick={handleContactClick}
             leftIcon={<TiLocationArrow className="h-6 w-6" />}
             containerClass="flex-center mt-20 cursor-pointer gap-1 px-6 py-3 text-sm uppercase transition-all duration-300 hover:scale-110"
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

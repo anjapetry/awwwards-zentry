@@ -5,9 +5,12 @@ import clsx from "clsx";
 export const BentoTilt = ({ children, className = "" }) => {
   const [transformStyle, setTransformStyle] = useState("");
   const itemRef = useRef(null);
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const handleMouseMove = (event) => {
-    if (!itemRef.current) return;
+    if (prefersReducedMotion || !itemRef.current) return;
 
     const { left, top, width, height } =
       itemRef.current.getBoundingClientRect();
@@ -39,13 +42,16 @@ export const BentoTilt = ({ children, className = "" }) => {
   );
 };
 
-export const BentoCard = ({ src, title, description, isComingSoon }) => {
+export const BentoCard = ({ src, title, description, isComingSoon, onAction }) => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [hoverOpacity, setHoverOpacity] = useState(0);
   const hoverButtonRef = useRef(null);
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const handleMouseMove = (event) => {
-    if (!hoverButtonRef.current) return;
+    if (prefersReducedMotion || !hoverButtonRef.current) return;
     const rect = hoverButtonRef.current.getBoundingClientRect();
 
     setCursorPosition({
@@ -75,11 +81,14 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
         </div>
 
         {isComingSoon && (
-          <div
+          <button
+            type="button"
             ref={hoverButtonRef}
+            onClick={onAction}
             onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            aria-label="Coming soon"
             className={clsx(
               "border-hsla relative flex w-fit cursor-pointer items-center gap-1 overflow-hidden rounded-full bg-black px-5 py-2 text-xs uppercase text-blue-50 focus:ring-4 focus:ring-teal-400",
             )}
@@ -94,16 +103,31 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
             />
             <TiLocationArrow className="relative z-20" />
             <p className="relative z-20">coming soon</p>
-          </div>
+          </button>
         )}
       </div>
     </div>
   );
 };
 
-const Features = () => (
-  <section className="bg-black pb-52">
-    <div className="container mx-auto px-3 md:px-10">
+const Features = () => {
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const handleComingSoonClick = () => {
+    const contactSection = document.getElementById("contact");
+    if (!contactSection) return;
+
+    contactSection.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  };
+
+  return (
+    <section id="features" aria-label="Features" className="bg-black pb-52">
+      <div className="container mx-auto px-3 md:px-10">
       <div className="px-5 py-32">
         <p className="font-circular-web text-lg text-blue-50">
           Into the Metagame Layer
@@ -125,6 +149,7 @@ const Features = () => (
           }
           description="A cross-platform metagame app, turning your activities across Web2 and Web3 games into a rewarding adventure."
           isComingSoon
+          onAction={handleComingSoonClick}
         />
       </BentoTilt>
 
@@ -139,6 +164,7 @@ const Features = () => (
             }
             description="An anime and gaming-inspired NFT collection - the IP primed for expansion."
             isComingSoon
+            onAction={handleComingSoonClick}
           />
         </BentoTilt>
 
@@ -152,6 +178,7 @@ const Features = () => (
             }
             description="A gamified social hub, adding a new dimension of play to social interaction for Web3 communities."
             isComingSoon
+            onAction={handleComingSoonClick}
           />
         </BentoTilt>
 
@@ -165,6 +192,7 @@ const Features = () => (
             }
             description="A cross-world AI Agent - elevating your gameplay to be more fun and productive."
             isComingSoon
+            onAction={handleComingSoonClick}
           />
         </BentoTilt>
 
@@ -188,8 +216,9 @@ const Features = () => (
           />
         </BentoTilt>
       </div>
-    </div>
-  </section>
-);
+      </div>
+    </section>
+  );
+};
 
 export default Features;

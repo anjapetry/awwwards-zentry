@@ -1,5 +1,5 @@
 import AnimatedTitle from "./AnimatedTitle";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import RoundedCorners from "./RoundedCorners";
 import { TiLocationArrow } from "react-icons/ti";
@@ -7,10 +7,28 @@ import Button from "./Button";
 
 const Story = () => {
   const frameRef = useRef(null);
+  const prefersReducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const scrollToContact = () => {
+    const contactSection = document.getElementById("contact");
+    if (!contactSection) return;
+
+    contactSection.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  };
 
   const handleMouseLeave = () => {
     const element = frameRef.current;
     if (!element) return;
+
+    if (prefersReducedMotion) {
+      gsap.set(element, { rotateX: 0, rotateY: 0 });
+      return;
+    }
 
     gsap.to(element, {
       duration: 0.3,
@@ -21,6 +39,8 @@ const Story = () => {
   };
 
   const handleMouseMove = (e) => {
+    if (prefersReducedMotion) return;
+
     const { clientX, clientY } = e;
     const element = frameRef.current;
 
@@ -45,6 +65,21 @@ const Story = () => {
     });
   };
 
+  useEffect(() => {
+    const element = frameRef.current;
+    if (!element) return;
+
+    element.addEventListener("mousemove", handleMouseMove);
+    element.addEventListener("mouseleave", handleMouseLeave);
+    element.addEventListener("mouseup", handleMouseLeave);
+
+    return () => {
+      element.removeEventListener("mousemove", handleMouseMove);
+      element.removeEventListener("mouseleave", handleMouseLeave);
+      element.removeEventListener("mouseup", handleMouseLeave);
+    };
+  });
+
   return (
     <section id="story" className="min-h-dvh w-screen bg-black text-stone-200">
       <div className="flex size-full flex-col items-center py-10 pb-24">
@@ -65,9 +100,6 @@ const Story = () => {
               <div className="story-img-content">
                 <img
                   ref={frameRef}
-                  onMouseLeave={handleMouseLeave}
-                  onMouseUp={handleMouseLeave}
-                  onMouseMove={handleMouseMove}
                   src="/img/entrance.webp"
                   alt=""
                   className="object-contain"
@@ -89,6 +121,7 @@ const Story = () => {
               id="realm-btn"
               title="discover prologue"
               aria-label="discover prologue"
+              onClick={scrollToContact}
               rightIcon={<TiLocationArrow className="h-6 w-6" />}
               containerClass="flex-center mt-5 gap-1 bg-teal-300"
             />
