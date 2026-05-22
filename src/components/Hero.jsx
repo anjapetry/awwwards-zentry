@@ -16,7 +16,19 @@ const Hero = () => {
   const [loadedVideos, setLoadedVideos] = useState(0);
 
   const totalVideos = 4;
+  const miniVideoRef = useRef(null);
   const nextVideoRef = useRef(null);
+
+  const playVideoSafely = (videoElement) => {
+    if (!videoElement) return;
+
+    const playPromise = videoElement.play();
+    if (playPromise?.catch) {
+      playPromise.catch(() => {
+        // Ignore autoplay rejections; user interaction can still start playback.
+      });
+    }
+  };
 
   const handleVideoLoad = () => {
     setLoadedVideos((prev) => prev + 1);
@@ -52,7 +64,7 @@ const Hero = () => {
           height: "100%",
           duration: 1,
           ease: "power1.inOut",
-          onStart: () => nextVideoRef.current.play(),
+          onStart: () => playVideoSafely(nextVideoRef.current),
         });
         gsap.from("#current-video", {
           transformOrigin: "center center",
@@ -82,6 +94,8 @@ const Hero = () => {
         start: "center center",
         end: "bottom center",
         scrub: true,
+        onEnter: () => playVideoSafely(miniVideoRef.current),
+        onEnterBack: () => playVideoSafely(miniVideoRef.current),
       },
     });
   });
@@ -109,13 +123,15 @@ const Hero = () => {
           <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
             <div
               onClick={handleMiniVideoClick}
-              className="ease--in origin-center scale-50 opacity-0 transition-all duration-500 hover:scale-100 hover:opacity-100"
+              className="ease--in origin-center scale-100 opacity-100 transition-all duration-500 hover:scale-105"
             >
               <video
-                ref={nextVideoRef}
+                ref={miniVideoRef}
                 src={getVideoSrc(upcomingVideoIndex)}
+                autoPlay
                 loop
                 muted
+                playsInline
                 id="current-video"
                 className="size-64 origin-center scale-150 object-cover object-center"
                 onLoadedData={handleVideoLoad}
@@ -126,8 +142,10 @@ const Hero = () => {
           <video
             ref={nextVideoRef}
             src={getVideoSrc(currentIndex)}
+            autoPlay
             loop
             muted
+            playsInline
             id="next-video"
             className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
             onLoadedData={handleVideoLoad}
@@ -136,9 +154,10 @@ const Hero = () => {
             src={getVideoSrc(
               currentIndex === totalVideos - 1 ? 1 : currentIndex + 1,
             )}
-            // autoPlay
+            autoPlay
             loop
             muted
+            playsInline
             className="absolute left-0 top-0 size-full object-cover object-center"
             onLoadedData={handleVideoLoad}
           />
@@ -160,7 +179,7 @@ const Hero = () => {
               title="Watch Trailer"
               type="button"
               leftIcon={<TiLocationArrow className="h-6 w-6" />}
-              containerClass="bg-teal-300 flex-center gap-1"
+              containerClass="flex-center gap-1 bg-teal-300"
             />
           </section>
         </div>
