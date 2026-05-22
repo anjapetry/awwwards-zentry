@@ -9,15 +9,20 @@ import Footer from "./components/Footer.jsx";
 
 const App = () => {
   return (
-    <main className="relative min-h-screen w-screen overflow-x-hidden text-white">
+    <div className="relative min-h-screen w-screen overflow-x-hidden text-white">
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <Navbar />
-      <Hero />
-      <About />
-      <Features />
-      <Story />
-      <Contact />
+      <main id="main-content" tabIndex="-1" aria-label="Main content">
+        <Hero />
+        <About />
+        <Features />
+        <Story />
+        <Contact />
+      </main>
       <Footer />
-    </main>
+    </div>
   );
 };
 export default App;
